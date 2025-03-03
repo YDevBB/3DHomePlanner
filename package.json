@@ -1,0 +1,18 @@
+{
+  "name": "my-3d-planner",
+  "version": "0.0.1",
+  "description": "A simple 3D home planner demo using Three.js, TypeScript, and Vite (no React).",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "three": "^0.148.0"
+  },
+  "devDependencies": {
+    "@types/three": "^0.148.0",
+    "vite": "^4.2.0",           
+    "typescript": "^4.9.0"     
+  }
+}
