@@ -255,8 +255,9 @@ const shaderMaterial = new THREE.ShaderMaterial({
     color2: { value: new THREE.Color(0x0000ff) }  // blue
   }
 });
-
+/*
 // Create a mesh using the box geometry and the custom shader material
 const shaderBox = new THREE.Mesh(boxGeom, shaderMaterial);
 shaderBox.position.set(2, 0.5, 0); // Place it somewhere visible in the scene
 scene.add(shaderBox);
+*/
