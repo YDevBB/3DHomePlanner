@@ -21,7 +21,7 @@ The scene adjusts dynamically to window resizing.
 Three.js: A powerful 3D library for the web.
 TypeScript: Strongly-typed JavaScript for improved code quality.
 WebGL Shaders: GLSL-based shader programming for custom visual effects.
-GLTFLoader / RGBELoader: Load 3D models and environment maps.
+GLTFLoader /RGBELoader: Load 3D models and environment maps.
 
 --Installation--
 
