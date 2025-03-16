@@ -21,6 +21,9 @@ const renderer = new THREE.WebGLRenderer({ antialias: true });
 renderer.setSize(window.innerWidth, window.innerHeight);
 renderer.outputEncoding = THREE.sRGBEncoding;
 
+renderer.toneMapping = THREE.ACESFilmicToneMapping;
+renderer.toneMappingExposure = 1.0;
+
 const container = document.getElementById('sceneContainer');
 if (!container) throw new Error('No #sceneContainer in HTML');
 container.appendChild(renderer.domElement);
@@ -128,10 +131,9 @@ gltfLoader.load('/models/IDANAS_drawerr.glb', (gltf) => {
       if ((child as THREE.Mesh).isMesh) {
         const material = (child as THREE.Mesh).material as THREE.MeshStandardMaterial;
       material.roughness = 0.6;
-      material.metalness = 0.6;
+      material.metalness = 0.65;
       material.needsUpdate = true;
       material.metalnessMap = null;
-      material.roughnessMap = null;
       material.normalMap = null;
     }
   });
