@@ -40,15 +40,15 @@ window.addEventListener('resize', () => {
 // -----------------------------
 // 2) Lights
 // -----------------------------
-const ambientLight = new THREE.AmbientLight(0x404040, 1);
-scene.add(ambientLight);
+const ambientLight = new THREE.AmbientLight(0x404040, 2);
+//scene.add(ambientLight);
 
 const hemiLight = new THREE.HemisphereLight(0xffffff, 0x444444, 0.6);
-scene.add(hemiLight);
+//scene.add(hemiLight);
 
 const directionalLight = new THREE.DirectionalLight(0xffffff, 2);
 directionalLight.position.set(5, 10, 5);
-scene.add(directionalLight);
+//scene.add(directionalLight);
 
 // -----------------------------
 // 3) Environment Map with PMREM
@@ -70,15 +70,18 @@ new RGBELoader().load('/pretoria_gardens_4k.hdr', (hdrTexture) => {
   pmrem.dispose();
 });
 
-renderer.toneMapping = THREE.ACESFilmicToneMapping;
-renderer.toneMappingExposure = 1.0;
 
 // -----------------------------
 // 4) Floor, Walls & Ceiling
 // -----------------------------
 // Floor: a 5x5 floor with a little thickness
 const floorGeom = new THREE.BoxGeometry(5.05, 5, 0.05);
-const floorMat = new THREE.MeshLambertMaterial({ color: 0xffffff });
+const floorMat = new THREE.MeshStandardMaterial({
+  color: 0xd3d3d3,       // light gray
+  roughness: 0.4,        // adjust as needed
+  metalness: 0.0,        // non-metallic for walls
+  envMapIntensity: 1.5,  // increase to see stronger reflections
+});
 const floor = new THREE.Mesh(floorGeom, floorMat);
 floor.rotation.x = -Math.PI / 2;
 // Shift up so that the top of the floor is at y=0.
@@ -93,14 +96,24 @@ const wallGeom = new THREE.BoxGeometry(5, wallHeight, 0.05);
 
 // Ceiling: a 5x5 ceiling with a little thickness
 const ceilingGeom = new THREE.BoxGeometry(5.05, 5, 0.05);
-const ceilingMat = new THREE.MeshLambertMaterial({ color: 0xD1E6C8 });
+const ceilingMat = new THREE.MeshStandardMaterial({
+  color: 0xd3d3d3,       // light gray
+  roughness: 0.4,        // adjust as needed
+  metalness: 0.0,        // non-metallic for walls
+  envMapIntensity: 1.5,  // increase to see stronger reflections
+});
 const ceiling = new THREE.Mesh(ceilingGeom, ceilingMat);
 ceiling.rotation.x = -Math.PI / 2;
 ceiling.position.y = 2.5;
 scene.add(ceiling);
 
 function createWall(x: number, y: number, z: number, rotY: number, rotX: number = 0) {
-  const wallMat = new THREE.MeshLambertMaterial({ color: 0xD1E6C8 }); // light green
+  const wallMat = new THREE.MeshStandardMaterial({
+    color: 0xd3d3d3,       // light gray
+    roughness: 0.4,        // adjust as needed
+    metalness: 0.0,        // non-metallic for walls
+    envMapIntensity: 1.5,  // increase to see stronger reflections
+  });
   const wall = new THREE.Mesh(wallGeom, wallMat);
   wall.position.set(x, y, z);
   wall.rotation.y = rotY;
@@ -153,7 +166,7 @@ gltfLoader.load('/models/IDANAS_drawerr.glb', (gltf) => {
   drawer.scale.set(1, 1, 1);
   drawer.position.set(0, 0, 0);  
 
-  drawer.traverse((child) => {
+  /*drawer.traverse((child) => {
       if ((child as THREE.Mesh).isMesh) {
         const material = (child as THREE.Mesh).material as THREE.MeshStandardMaterial;
       material.roughness = 0.6;
@@ -162,7 +175,7 @@ gltfLoader.load('/models/IDANAS_drawerr.glb', (gltf) => {
       material.metalnessMap = null;
       material.normalMap = null;
     }
-  });
+  });*/
 
   scene.add(drawer);
   console.log("Drawer loaded!");
