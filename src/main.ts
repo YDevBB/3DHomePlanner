@@ -6,7 +6,7 @@ import { RGBELoader } from 'three/examples/jsm/loaders/RGBELoader.js';
 // 1) Basic Scene Setup
 // -----------------------------
 const scene = new THREE.Scene();
-scene.background = new THREE.Color(0xbfd1e5);
+//scene.background = new THREE.Color(0xbfd1e5);
 
 const camera = new THREE.PerspectiveCamera(
   30,
@@ -52,12 +52,23 @@ scene.add(directionalLight);
 // -----------------------------
 const pmrem = new THREE.PMREMGenerator(renderer);
 pmrem.compileEquirectangularShader();
-new RGBELoader().load('/envmap.hdr', (hdrTexture) => {
+
+new RGBELoader().load('/pretoria_gardens_4k.hdr', (hdrTexture) => {
+  console.log('HDR loaded:', hdrTexture);
   const envMap = pmrem.fromEquirectangular(hdrTexture).texture;
+  
+
+  scene.background = envMap;
+  
+  // Set environment for PBR reflections
   scene.environment = envMap;
+  
   hdrTexture.dispose();
   pmrem.dispose();
 });
+
+renderer.toneMapping = THREE.ACESFilmicToneMapping;
+renderer.toneMappingExposure = 1.0;
 
 // -----------------------------
 // 4) Floor, Walls & Ceiling
@@ -116,15 +127,19 @@ gltfLoader.load('/models/IDANAS_drawerr.glb', (gltf) => {
   drawer.traverse((child) => {
       if ((child as THREE.Mesh).isMesh) {
         const material = (child as THREE.Mesh).material as THREE.MeshStandardMaterial;
-      material.roughness = 0.1; // lower roughness makes it glossier
-      material.metalness = 0.8; // higher metalness can enhance the reflective look
+      material.roughness = 0.6;
+      material.metalness = 0.6;
       material.needsUpdate = true;
+      material.metalnessMap = null;
+      material.roughnessMap = null;
+      material.normalMap = null;
     }
   });
 
   scene.add(drawer);
   console.log("Drawer loaded!");
 }, undefined, (err) => console.error('Loading error:', err));
+
 
 // -----------------------------
 // 6) Raycasting / Dragging Setup
