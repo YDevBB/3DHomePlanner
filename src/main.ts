@@ -93,14 +93,14 @@ const wallGeom = new THREE.BoxGeometry(5, wallHeight, 0.05);
 
 // Ceiling: a 5x5 ceiling with a little thickness
 const ceilingGeom = new THREE.BoxGeometry(5.05, 5, 0.05);
-const ceilingMat = new THREE.MeshLambertMaterial({ color: 0xffffff });
+const ceilingMat = new THREE.MeshLambertMaterial({ color: 0xD1E6C8 });
 const ceiling = new THREE.Mesh(ceilingGeom, ceilingMat);
 ceiling.rotation.x = -Math.PI / 2;
 ceiling.position.y = 2.5;
 scene.add(ceiling);
 
 function createWall(x: number, y: number, z: number, rotY: number, rotX: number = 0) {
-  const wallMat = new THREE.MeshLambertMaterial({ color: 0xe0e0e0 });
+  const wallMat = new THREE.MeshLambertMaterial({ color: 0xD1E6C8 }); // light green
   const wall = new THREE.Mesh(wallGeom, wallMat);
   wall.position.set(x, y, z);
   wall.rotation.y = rotY;
@@ -114,8 +114,34 @@ createWall(0, wallHeight / 2, -2.5, 0);
 createWall(-2.5, wallHeight / 2, 0, Math.PI / 2);
 createWall( 2.5, wallHeight / 2, 0, -Math.PI / 2);
 
-// Ceiling (if needed) – here we keep it simple and omit it per previous requests
-// (You can add it later if desired.)
+// Golv lister (Floor Moldings): Create thin boxes along the floor edges
+const moldingThickness = 0.1;
+const moldingHeight = 0.05;
+const moldingMat = new THREE.MeshLambertMaterial({ color: 0x8B4513 }); // Wood brown
+
+// Left molding
+const leftMoldingGeom = new THREE.BoxGeometry(moldingThickness, moldingHeight, 5);
+const leftMolding = new THREE.Mesh(leftMoldingGeom, moldingMat);
+leftMolding.position.set(-2.5 - moldingThickness / 2, moldingHeight / 2, 0);
+scene.add(leftMolding);
+
+// Right molding
+const rightMoldingGeom = new THREE.BoxGeometry(moldingThickness, moldingHeight, 5);
+const rightMolding = new THREE.Mesh(rightMoldingGeom, moldingMat);
+rightMolding.position.set(2.5 + moldingThickness / 2, moldingHeight / 2, 0);
+scene.add(rightMolding);
+
+// Front molding
+const frontMoldingGeom = new THREE.BoxGeometry(5 + 2 * moldingThickness, moldingHeight, moldingThickness);
+const frontMolding = new THREE.Mesh(frontMoldingGeom, moldingMat);
+frontMolding.position.set(0, moldingHeight / 2, 2.5 + moldingThickness / 2);
+scene.add(frontMolding);
+
+// Back molding
+const backMoldingGeom = new THREE.BoxGeometry(5 + 2 * moldingThickness, moldingHeight, moldingThickness);
+const backMolding = new THREE.Mesh(backMoldingGeom, moldingMat);
+backMolding.position.set(0, moldingHeight / 2, -2.5 - moldingThickness / 2);
+scene.add(backMolding);
 
 // -----------------------------
 // 5) Load the Drawer Model
